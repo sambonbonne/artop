@@ -1,0 +1,16 @@
+[package]
+name = "artop"
+version = "0.1.0"
+authors = ["Sam D <sam@wekk.io>"]
+edition = "2018"
+description = "A little abstract art images generator from computer load."
+readme = "README.md"
+repository = "https://github.com/smumu/artop"
+licence = "GPL-3.0-or-later"
+licence-file = "LICENSE.txt"
+
+[dependencies]
+systemstat = "0.1"
+num_cpus = "1.13"
+image = "0.23"
+structopt = { version = "0.3", default-features = false }
