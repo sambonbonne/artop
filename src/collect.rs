@@ -76,3 +76,49 @@ impl StatReader for NetworkUsageReader {
         Ok(result)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn processor_load() -> Result<(), String> {
+        let processor_load_reader = ProcessorLoadReader::new(System::new());
+        if let Ok(processor_load_scaled) = processor_load_reader.read(1000.0) {
+            if processor_load_scaled >= 0.0 && processor_load_scaled <= 1000.0 {
+                Ok(())
+            } else {
+                Err(String::from("Processor load reader should give a scaled value"))
+            }
+        } else {
+            Err(String::from("Processor load reader should give an Ok Result"))
+        }
+    }
+
+    #[test]
+    fn memory_usage() -> Result<(), String> {
+        let memory_usage_reader = MemoryUsageReader::new(System::new());
+        if let Ok(memory_usage_scaled) = memory_usage_reader.read(1000.0) {
+            if memory_usage_scaled >= 0.0 && memory_usage_scaled <= 1000.0 {
+                Ok(())
+            } else {
+                Err(String::from("Memory usage reader should give a scaled value"))
+            }
+        } else {
+            Err(String::from("Memory usage reader should give an Ok Result"))
+        }
+    }
+
+    #[test]
+    fn network_usage() -> Result<(), String> {
+        let network_usage_reader = NetworkUsageReader::new(System::new());
+        if let Ok(network_usage_scaled) = network_usage_reader.read(1000.0) {
+            if network_usage_scaled >= 0.0 && network_usage_scaled <= 1000.0 {
+                Ok(())
+            } else {
+                Err(String::from("Network usage reader should give a scaled value"))
+            }
+        } else {
+            Err(String::from("Network usage reader should give an Ok Result"))
+        }
+    }}
