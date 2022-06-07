@@ -2,7 +2,7 @@
 name = "artop"
 version = "0.1.0"
 authors = ["Sam D <sam@wekk.io>"]
-edition = "2018"
+edition = "2021"
 description = "A little abstract art images generator from computer load."
 readme = "README.md"
 repository = "https://github.com/smumu/artop"
