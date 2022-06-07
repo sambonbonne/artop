@@ -1,15 +1,9 @@
-use std::{
-    io,
-    thread::sleep,
-    time::Duration,
-    vec::Vec
-};
+use std::{io, thread::sleep, time::Duration, vec::Vec};
 
 use crate::collect::StatReader;
-use crate::write::{ Filler, write };
+use crate::write::{write, Filler};
 
 use image::Rgb;
-
 
 struct ColorReaders<'a, T: StatReader, U: StatReader, V: StatReader> {
     red: &'a T,
@@ -19,7 +13,7 @@ struct ColorReaders<'a, T: StatReader, U: StatReader, V: StatReader> {
 
 pub struct Converter<'a, T: StatReader, U: StatReader, V: StatReader> {
     readers: ColorReaders<'a, T, U, V>,
-    pixels: Vec<Rgb<usize>>
+    pixels: Vec<Rgb<usize>>,
 }
 
 impl<'a, T, U, V> Converter<'a, T, U, V>
@@ -28,14 +22,18 @@ where
     U: StatReader,
     V: StatReader,
 {
-    pub fn new<'b, W: StatReader, X: StatReader, Y: StatReader>(red_reader: &'b W, green_reader: &'b X, blue_reader: &'b Y) -> Converter<'b, W, X, Y> {
+    pub fn new<'b, W: StatReader, X: StatReader, Y: StatReader>(
+        red_reader: &'b W,
+        green_reader: &'b X,
+        blue_reader: &'b Y,
+    ) -> Converter<'b, W, X, Y> {
         Converter {
             readers: ColorReaders {
                 red: red_reader,
                 blue: blue_reader,
-                green: green_reader
+                green: green_reader,
             },
-            pixels: Vec::new()
+            pixels: Vec::new(),
         }
     }
 
@@ -48,7 +46,7 @@ where
             self.pixels.push(Rgb([
                 red_value as usize,
                 green_value as usize,
-                blue_value as usize
+                blue_value as usize,
             ]));
 
             sleep(Duration::from_millis(sleep_ms));

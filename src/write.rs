@@ -1,6 +1,5 @@
+use image::{Rgb, RgbImage};
 use std::vec::Vec;
-use image::{RgbImage, Rgb};
-
 
 pub type Pixel = Rgb<usize>;
 pub type Pixels = Vec<Pixel>;
@@ -16,7 +15,7 @@ pub fn write(pixels: &Pixels, filler: Filler, dest: String) {
 }
 
 pub mod fillers {
-    use super::{ Pixels, RgbImage, Rgb };
+    use super::{Pixels, Rgb, RgbImage};
 
     pub fn smooth(pixels: &Pixels, image_buffer: &mut RgbImage) {
         for (i, colors) in pixels.iter().enumerate() {
@@ -27,7 +26,7 @@ pub mod fillers {
         let max_size = image_buffer.width() - 1;
 
         for i in 0u32..max_size {
-            for j in 0u32..(max_size-i) {
+            for j in 0u32..(max_size - i) {
                 let image_buffer_reader = image_buffer.clone();
 
                 let current_pixel = image_buffer_reader.get_pixel(j + i, j);
@@ -36,7 +35,7 @@ pub mod fillers {
                 let new_color = Rgb([
                     ((current_pixel.0[0] as f64 + next_pixel.0[0] as f64) / 2.0) as u8,
                     ((current_pixel.0[1] as f64 + next_pixel.0[1] as f64) / 2.0) as u8,
-                    ((current_pixel.0[2] as f64 + next_pixel.0[2] as f64) / 2.0) as u8
+                    ((current_pixel.0[2] as f64 + next_pixel.0[2] as f64) / 2.0) as u8,
                 ]);
 
                 image_buffer.put_pixel(j + i + 1, j, new_color);
@@ -51,11 +50,7 @@ pub mod fillers {
         for (i, colors) in pixels.iter().enumerate() {
             let i = i as u32;
 
-            let current_color = Rgb([
-                colors[0] as u8,
-                colors[1] as u8,
-                colors[2] as u8]
-            );
+            let current_color = Rgb([colors[0] as u8, colors[1] as u8, colors[2] as u8]);
 
             image_buffer.put_pixel(i, i, current_color);
 
@@ -66,13 +61,13 @@ pub mod fillers {
                 let new_color = Rgb([
                     ((previous_pixel.0[0] as f64 + current_pixel.0[0] as f64) / 2.0) as u8,
                     ((previous_pixel.0[1] as f64 + current_pixel.0[1] as f64) / 2.0) as u8,
-                    ((previous_pixel.0[2] as f64 + current_pixel.0[2] as f64) / 2.0) as u8
+                    ((previous_pixel.0[2] as f64 + current_pixel.0[2] as f64) / 2.0) as u8,
                 ]);
 
                 let range = if i <= max_size / 2 {
-                        0u32..i
+                    0u32..i
                 } else if i < max_size {
-                        0u32..(max_size - i + 1)
+                    0u32..(max_size - i + 1)
                 } else {
                     0u32..1u32
                 };
@@ -85,8 +80,8 @@ pub mod fillers {
                 }
 
                 if i <= max_size / 2 {
-                    image_buffer.put_pixel(i*2, 0, current_color);
-                    image_buffer.put_pixel(0, i*2, current_color);
+                    image_buffer.put_pixel(i * 2, 0, current_color);
+                    image_buffer.put_pixel(0, i * 2, current_color);
                 }
             }
         }
